@@ -1,0 +1,27 @@
+App\Entity\User:
+  u1:
+    username: 'ali'
+    plainPassword: 'ali'
+    email: 'ali@ali.com'
+    roles: []
+
+
+  u2:
+    username: 'baba'
+    plainPassword: 'baba'
+    email: 'baba@baba.com '
+    roles: []
+
+
+  u3:
+    username: 'toto'
+    plainPassword: 'toto'
+    email: 'toto@toto.com'
+    roles: []
+
+
+  u4:
+    username: 'tata'
+    plainPassword: 'tata'
+    email: 'tata@tata.com'
+    roles: []
