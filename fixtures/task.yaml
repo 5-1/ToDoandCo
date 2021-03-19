@@ -1,0 +1,16 @@
+App\Entity\Task:
+  t1:
+    title: 'tache 1'
+    content: 'Woaw ! super tache ! les fixtures ont lair de marcher !'
+
+  t2:
+    title: 'tache 2'
+    content: 'Woaw ! super tache ! les fixtures ont lair de marcher !'
+
+  t3:
+    title: 'tache 3'
+    content: 'Woaw ! super tache ! les fixtures ont lair de marcher !'
+
+  t4:
+    title: 'tache 4'
+    content: 'Woaw ! super tache ! les fixtures ont lair de marcher !'
