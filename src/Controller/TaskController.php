@@ -4,20 +4,24 @@ namespace App\Controller;
 
 use App\Entity\Task;
 use App\Form\TaskType;
+use App\Repository\TaskRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class TaskController extends AbstractController
 {
     /**
      * @Route("/tasks", name="task_list")
+     *
      */
-    public function listAction()
+    public function listAction(TaskRepository $repository)
     {
-        return $this->render('task/list.html.twig', ['tasks' => $this->getDoctrine()->getRepository('App:Task')->findAll()]);
+        return $this->render('task/list.html.twig', ['tasks' => $repository->findAllFromUser($this->getUser())]);
     }
 
     /**
@@ -32,8 +36,9 @@ class TaskController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted()&& $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $task->setUser($this->getUser());
 
             $em->persist($task);
             $em->flush();
@@ -47,15 +52,20 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/tasks/{id}/edit", name="task_edit")
+     * @Route("/tasks/{id}/edit", name="task_edit", requirements={"id":"\d+"})
+     * @param Task $task
+     * @param Request $request
+     * @return RedirectResponse|Response
+     * @IsGranted("MANAGE", subject="task")
      */
     public function editAction(Task $task, Request $request)
     {
-        $form = $this->createForm(TaskType::class, $task);
+
+            $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted()&& $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', 'La tâche a bien été modifiée.');
@@ -76,6 +86,7 @@ class TaskController extends AbstractController
      */
     public function toggleTaskAction(Task $task)
     {
+
         $task->toggle(!$task->isDone());
         $this->getDoctrine()->getManager()->flush();
 
@@ -88,6 +99,7 @@ class TaskController extends AbstractController
      * @Route("/tasks/{id}/delete", name="task_delete")
      * @param Task $task
      * @return RedirectResponse
+     * @IsGranted("MANAGE", subject="task")
      */
     public function deleteTaskAction(Task $task)
     {
