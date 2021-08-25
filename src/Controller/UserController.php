@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\EditUserType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,7 +25,7 @@ class UserController extends AbstractController
      */
     public function listAction(UserRepository $userRepository)
     {
-        return $this->render('user/list.html.twig', ['users' =>$userRepository->findAll()]);
+        return $this->render('user/list.html.twig', ['users' => $userRepository->findAll()]);
     }
 
     /**
@@ -42,8 +43,9 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $password =$encoder->encodePassword($user, $user->getPassword());
+            $password = $encoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
+            $user->setRoles(["ROLE_USER"]);
 
             $em->persist($user);
             $em->flush();
@@ -64,15 +66,18 @@ class UserController extends AbstractController
      * @return RedirectResponse|Response
      * @IsGranted("ROLE_ADMIN")
      */
-    public function editAction(User $user, Request $request,UserPasswordEncoderInterface $passwordEncoder)
+    public function editAction(User $user, Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(EditUserType::class, $user);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $password =$passwordEncoder->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
+            if ($user->getPlainPassword()) {
+                $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
+                $user->setPassword($password);
+            }
+
 
             $this->getDoctrine()->getManager()->flush();
 
