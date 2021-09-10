@@ -3,25 +3,25 @@ App\Entity\User:
     username: 'ali'
     plainPassword: 'ali'
     email: 'ali@ali.com'
-    roles: []
+    roles: ['ROLE_ADMIN']
 
 
   u2:
     username: 'baba'
     plainPassword: 'baba'
     email: 'baba@baba.com '
-    roles: []
+    roles: ['ROLE_USER']
 
 
   u3:
     username: 'toto'
     plainPassword: 'toto'
     email: 'toto@toto.com'
-    roles: []
+    roles: ['ROLE_USER']
 
 
   u4:
     username: 'tata'
     plainPassword: 'tata'
     email: 'tata@tata.com'
-    roles: []
+    roles: ['ROLE_USER']
