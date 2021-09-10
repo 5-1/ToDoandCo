@@ -17,11 +17,21 @@ class TaskController extends AbstractController
 {
     /**
      * @Route("/tasks", name="task_list")
-     *
+     * @IsGranted("TASK_SHOW_LIST")
+     * @param Request $request
+     * @return Response
      */
-    public function listAction(TaskRepository $repository)
+    public function listAction(TaskRepository $repository, request $request): Response
     {
-        return $this->render('task/list.html.twig', ['tasks' => $repository->findAllFromUser($this->getUser())]);
+       $done = $request->get('done', null);
+
+        $tasks = $repository->findAllFromUser($this->getUser(), $this->isGranted("ROLE_ADMIN"),$done);
+
+        return $this->render(
+            'task/list.html.twig', [
+            'tasks' => $tasks,
+            'showUsername' => false
+        ]);
     }
 
     /**
@@ -45,7 +55,7 @@ class TaskController extends AbstractController
 
             $this->addFlash('success', 'La tâche a été bien été ajoutée.');
 
-            return $this->redirectToRoute('task_list');
+            return $this->redirectToRoute('task_list', ['done' => false]);
         }
 
         return $this->render('task/create.html.twig', ['form' => $form->createView()]);
@@ -70,7 +80,7 @@ class TaskController extends AbstractController
 
             $this->addFlash('success', 'La tâche a bien été modifiée.');
 
-            return $this->redirectToRoute('task_list');
+            return $this->redirectToRoute('task_list', ['done' => $task->isDone()]);
         }
 
         return $this->render('task/edit.html.twig', [
@@ -84,7 +94,7 @@ class TaskController extends AbstractController
      * @param Task $task
      * @return RedirectResponse
      */
-    public function toggleTaskAction(Task $task)
+    public function toggleTaskAction(Task $task): RedirectResponse
     {
 
         $task->toggle(!$task->isDone());
