@@ -13,6 +13,7 @@ App\Entity\User:
     roles: ['ROLE_USER']
 
 
+
   u3:
     username: 'toto'
     plainPassword: 'toto'

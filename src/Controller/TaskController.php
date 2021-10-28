@@ -93,6 +93,7 @@ class TaskController extends AbstractController
      * @Route("/tasks/{id}/toggle", name="task_toggle")
      * @param Task $task
      * @return RedirectResponse
+     * @codeCoverageIgnore
      */
     public function toggleTaskAction(Task $task): RedirectResponse
     {

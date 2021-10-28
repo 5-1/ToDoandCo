@@ -17,7 +17,7 @@ use AuthenticatedTrait;
      * @param $url
      * @param $expectedStatus
      * @dataProvider smokeTestProvider
-     */
+     **/
     public function testSmokeTest($url,$expectedStatus, $method)
     {
         $client = static::createClient();
@@ -26,19 +26,20 @@ use AuthenticatedTrait;
     }
 
 
-    public function smokeTestProvider(){
-        yield "sws" => ['/login', 200, 'GET'];
-        yield ['/logout', 302, 'POST'];
-        yield ['/', 200, 'GET'];
-        yield ['/tasks', 200, 'GET'];
-        yield ['/tasks/create', 200, 'GET'];
-        yield "cfgc" =>  ['/tasks/2/edit', 200, 'GET'];
-        yield  "tot" =>  ['/tasks/2/toggle', 302, 'GET'];
-        yield ",mlk,m" =>  ['/tasks/2/delete', 302, 'DELETE'];
-        yield ['/users/create', 200, 'GET'];
-        yield ['/users', 200, 'GET'];
-        yield ['/users/create', 200, 'GET'];
-        yield ['/users/1/edit', 200, 'GET'];
+    public function smokeTestProvider(): \Generator
+    {
+        yield "login" => ['/login', 200, 'GET'];
+        yield "logout" => ['/logout', 302, 'POST'];
+        yield "home" => ['/', 200, 'GET'];
+        yield "task_list" => ['/tasks', 302, 'GET'];
+        yield "task_create" => ['/tasks/create', 200, 'GET'];
+        yield "task_edit" =>  ['/tasks/26/edit', 302, 'GET'];
+        yield "tot" =>  ['/tasks/26/toggle', 302, 'GET'];
+        yield "task_delete" => ['/tasks/26/delete', 302, 'DELETE'];
+        yield "user_create" => ['/users/create', 200, 'GET'];
+        yield "user_list" => ['/users', 302, 'GET'];
+        yield "user_create" => ['/users/create', 302, 'GET'];
+        yield "user_edit" => ['/users/19/edit', 302, 'GET'];
 
 
     }

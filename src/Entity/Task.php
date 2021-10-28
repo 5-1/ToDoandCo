@@ -121,6 +121,6 @@ class Task
 
     public function __toString()
     {
-        return $this->getUser();
+        return $this->getTitle();
     }
 }
