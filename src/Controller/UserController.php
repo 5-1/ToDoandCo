@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\EditUserType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,10 +21,11 @@ class UserController extends AbstractController
      * @Route("/users", name="user_list")
      * @param UserRepository $userRepository
      * @return Response
+     * @IsGranted("ROLE_ADMIN")
      */
     public function listAction(UserRepository $userRepository)
     {
-        return $this->render('user/list.html.twig', ['users' =>$userRepository->findAll()]);
+        return $this->render('user/list.html.twig', ['users' => $userRepository->findAll()]);
     }
 
     /**
@@ -40,8 +43,9 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $password =$encoder->encodePassword($user, $user->getPassword());
+            $password = $encoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
+            $user->setRoles(["ROLE_USER"]);
 
             $em->persist($user);
             $em->flush();
@@ -58,17 +62,22 @@ class UserController extends AbstractController
      * @Route("/users/{id}/edit", name="user_edit")
      * @param User $user
      * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
      * @return RedirectResponse|Response
+     * @IsGranted("ROLE_ADMIN")
      */
-    public function editAction(User $user, Request $request)
+    public function editAction(User $user, Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(EditUserType::class, $user);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
+            if ($user->getPlainPassword()) {
+                $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
+                $user->setPassword($password);
+            }
+
 
             $this->getDoctrine()->getManager()->flush();
 
