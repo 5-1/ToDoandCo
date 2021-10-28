@@ -15,8 +15,18 @@ class SecurityControllerTest extends WebTestCase
         $this->client->request('GET', '/login');
         $crawler = $this->client->submitForm('Se connecter', ['email' => 'ali@ali.com', 'password' => 'ali']);
 
-      $this->assertResponseRedirects("");
+        $this->assertResponseRedirects("");
+    }
 
+    public function testAuthentificationUserBadEmail()
+    {
+        $this->client = static::createClient();
+        $this->client->request('GET', '/login');
+        $crawler = $this->client->submitForm('Se connecter', ['email' => 'bad@bad.com', 'password' => 'ali']);
+
+        $this->assertResponseRedirects("/login");
+        $this->client->followRedirect();
+        $this->assertSelectorTextContains('.alert-danger', 'not be found');
 
 
     }

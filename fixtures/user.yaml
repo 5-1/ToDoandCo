@@ -9,7 +9,7 @@ App\Entity\User:
   u2:
     username: 'baba'
     plainPassword: 'baba'
-    email: 'baba@baba.com '
+    email: 'baba@baba.com'
     roles: []
 
 

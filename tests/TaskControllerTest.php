@@ -30,7 +30,7 @@ class TaskControllerTest extends WebTestCase
 
     public function testCreateTaskAuthorized()
     {
-        $client = $this->loginClient('ali@ali.com', 'ali');
+        $client = $this->createAuthenticatedUser('ali@ali.com', 'ali');
         $client->request('GET', '/tasks/create');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -48,7 +48,7 @@ class TaskControllerTest extends WebTestCase
 
     public function testEditAction()
     {
-        $client = $this->loginClient('ali@ali.com', 'ali');
+        $client = $this->createAuthenticatedUser('ali@ali.com', 'ali');
         $client->request('GET', '/tasks/1/edit');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -58,10 +58,11 @@ class TaskControllerTest extends WebTestCase
             'task[title]' => 'Titre MODIFIER de test : ' . $uniqId,
             'task[content]' => 'Contenu MODIFIER de test'
         ]);
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+
+        $this->assertResponseStatusCodeSame(302);
 
         $client->followRedirect();
-        $this->assertContains("Titre tâche de test : " . $uniqId, $client->getResponse()->getContent());
+        $this->assertContains("Superbe", $client->getResponse()->getContent());
 
 
     }

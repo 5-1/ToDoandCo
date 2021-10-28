@@ -18,7 +18,7 @@ trait AuthenticatedTrait
      *
      * @return KernelBrowser
      */
-    protected function createAuthenticatedUser($email = 'ali@ali.com', $password = 'ali')
+    protected function createAuthenticatedUser(string $email = 'ali@ali.com', $password = 'ali'): KernelBrowser
     {
         $client = static::createClient();
 
@@ -30,11 +30,4 @@ trait AuthenticatedTrait
         return $client;
     }
 
-    public function loginClient($email, $password)
-    {
-        return static::createClient([], [
-            'PHP_AUTH_USER' => $email,
-            'PHP_AUTH_PW'   => $password
-        ]);
-    }
 }
