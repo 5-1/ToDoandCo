@@ -50,6 +50,7 @@
         "dama/doctrine-test-bundle": "^6.5",
         "friendsofphp/php-cs-fixer": "^3.2",
         "hautelook/alice-bundle": "^2.8",
+        "phpunit/phpunit": "^9.5",
         "symfony/debug-bundle": "^5.1",
         "symfony/maker-bundle": "^1.0",
         "symfony/stopwatch": "^5.1",
