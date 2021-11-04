@@ -2,14 +2,11 @@
 
 namespace App\Tests;
 
-use App\Tests\AuthenticatedTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 class TaskControllerTest extends WebTestCase
 {
-
-
     use AuthenticatedTrait;
 
     public function testList(): void
@@ -19,14 +16,12 @@ class TaskControllerTest extends WebTestCase
         $this->assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }
 
-
     public function testDelete(): void
     {
         $user = $this->createAuthenticatedUser('ali@ali.com');
         $user->request('DELETE', '/tasks/1/delete');
         $this->assertSame(Response::HTTP_FOUND, $user->getResponse()->getStatusCode());
     }
-
 
     public function testCreateTaskAuthorized()
     {
@@ -37,13 +32,13 @@ class TaskControllerTest extends WebTestCase
 
         $uniqId = uniqid();
         $client->submitForm('Ajouter', [
-            'task[title]' => 'Titre tâche de test : ' . $uniqId,
-            'task[content]' => 'Contenu tâche de test'
+            'task[title]' => 'Titre tâche de test : '.$uniqId,
+            'task[content]' => 'Contenu tâche de test',
         ]);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
         $client->followRedirect();
-        $this->assertContains("Titre tâche de test : " . $uniqId, $client->getResponse()->getContent());
+        $this->assertContains('Titre tâche de test : '.$uniqId, $client->getResponse()->getContent());
     }
 
     public function testEditAction()
@@ -55,17 +50,13 @@ class TaskControllerTest extends WebTestCase
 
         $uniqId = uniqid();
         $client->submitForm('Modifier', [
-            'task[title]' => 'Titre MODIFIER de test : ' . $uniqId,
-            'task[content]' => 'Contenu MODIFIER de test'
+            'task[title]' => 'Titre MODIFIER de test : '.$uniqId,
+            'task[content]' => 'Contenu MODIFIER de test',
         ]);
 
         $this->assertResponseStatusCodeSame(302);
 
         $client->followRedirect();
-        $this->assertContains("Superbe", $client->getResponse()->getContent());
-
-
+        $this->assertContains('Superbe', $client->getResponse()->getContent());
     }
-
-
 }

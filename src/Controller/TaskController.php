@@ -11,32 +11,29 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 
 class TaskController extends AbstractController
 {
     /**
      * @Route("/tasks", name="task_list")
      * @IsGranted("TASK_SHOW_LIST")
-     * @param Request $request
-     * @return Response
      */
     public function listAction(TaskRepository $repository, request $request): Response
     {
-       $done = $request->get('done', null);
+        $done = $request->get('done', null);
 
-        $tasks = $repository->findAllFromUser($this->getUser(), $this->isGranted("ROLE_ADMIN"),$done);
+        $tasks = $repository->findAllFromUser($this->getUser(), $this->isGranted('ROLE_ADMIN'), $done);
 
         return $this->render(
             'task/list.html.twig', [
             'tasks' => $tasks,
-            'showUsername' => false
+            'showUsername' => false,
         ]);
     }
 
     /**
      * @Route("/tasks/create", name="task_create")
-     * @param Request $request
+     *
      * @return RedirectResponse|Response
      */
     public function createAction(Request $request)
@@ -46,7 +43,7 @@ class TaskController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()&& $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $task->setUser($this->getUser());
 
@@ -63,19 +60,17 @@ class TaskController extends AbstractController
 
     /**
      * @Route("/tasks/{id}/edit", name="task_edit", requirements={"id":"\d+"})
-     * @param Task $task
-     * @param Request $request
+     *
      * @return RedirectResponse|Response
      * @IsGranted("MANAGE", subject="task")
      */
     public function editAction(Task $task, Request $request)
     {
-
-            $form = $this->createForm(TaskType::class, $task);
+        $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()&& $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', 'La tâche a bien été modifiée.');
@@ -91,13 +86,10 @@ class TaskController extends AbstractController
 
     /**
      * @Route("/tasks/{id}/toggle", name="task_toggle")
-     * @param Task $task
-     * @return RedirectResponse
      * @codeCoverageIgnore
      */
     public function toggleTaskAction(Task $task): RedirectResponse
     {
-
         $task->toggle(!$task->isDone());
         $this->getDoctrine()->getManager()->flush();
 
@@ -108,7 +100,7 @@ class TaskController extends AbstractController
 
     /**
      * @Route("/tasks/{id}/delete", name="task_delete")
-     * @param Task $task
+     *
      * @return RedirectResponse
      * @IsGranted("MANAGE", subject="task")
      */

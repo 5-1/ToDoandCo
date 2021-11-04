@@ -2,8 +2,8 @@
 
 namespace App\DataFixtureProcessor;
 
-use Fidry\AliceDataFixtures\ProcessorInterface;
 use App\Entity\User;
+use Fidry\AliceDataFixtures\ProcessorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 final class UserProcessor implements ProcessorInterface
@@ -13,17 +13,17 @@ final class UserProcessor implements ProcessorInterface
      */
     private $passwordEncoder;
 
-    public function __construct( UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->passwordEncoder = $passwordEncoder;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function preProcess(string $fixtureId, $object): void
     {
-        if (! $object instanceof User) {
+        if (!$object instanceof User) {
             return;
         }
 
@@ -31,7 +31,7 @@ final class UserProcessor implements ProcessorInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function postProcess(string $fixtureId, $object): void
     {

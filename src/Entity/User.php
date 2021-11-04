@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use function Sodium\add;
 
 /**
  * @ORM\Table("user")
@@ -117,9 +116,6 @@ class User implements UserInterface
         return $this->plainPassword;
     }
 
-    /**
-     * @param string $plainPassword
-     */
     public function setPlainPassword(string $plainPassword): void
     {
         $this->plainPassword = $plainPassword;
@@ -129,7 +125,4 @@ class User implements UserInterface
     {
         return $this->tasks;
     }
-
-
-
 }

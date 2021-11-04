@@ -1,10 +1,9 @@
 <?php
+
 namespace App\Tests;
 
-use App\Tests\AuthenticatedTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-
 
 class UserControllerTest extends WebTestCase
 {
@@ -25,18 +24,18 @@ class UserControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $client->submitForm('Ajouter', [
-            'user[username]' => 'testAdduser' . uniqid(),
+            'user[username]' => 'testAdduser'.uniqid(),
             'user[plainPassword][first]' => 'testAddmdp',
             'user[plainPassword][second]' => 'testAddmdp',
-            'user[email]' => 'testEdit' . uniqid() . 'test@test.fr',
+            'user[email]' => 'testEdit'.uniqid().'test@test.fr',
         ]);
 
-        $this->assertResponseRedirects("/users");
+        $this->assertResponseRedirects('/users');
 
 //        $crawler = $client->followRedirect();
         $crawler = $client->followRedirect();
 
-        $this->assertSelectorTextContains( 'strong',"Superbe");
+        $this->assertSelectorTextContains('strong', 'Superbe');
     }
 
     public function testEditUser()
@@ -44,18 +43,17 @@ class UserControllerTest extends WebTestCase
         $client = $this->createAuthenticatedUser('ali@ali.com', 'ali');
         $client->request('GET', '/users/2/edit');
 
-
         $client->submitForm('Modifier', [
-            'edit_user[username]' => 'testEdit' . uniqid(),
+            'edit_user[username]' => 'testEdit'.uniqid(),
             'edit_user[plainPassword][first]' => 'testAddmdp',
             'edit_user[plainPassword][second]' => 'testAddmdp',
-            'edit_user[email]' => 'testEdit' . uniqid() . 'test@test.fr',
-            'edit_user[roles][0]' => 'ROLE_USER'
+            'edit_user[email]' => 'testEdit'.uniqid().'test@test.fr',
+            'edit_user[roles][0]' => 'ROLE_USER',
         ]);
 
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
         $client->followRedirect();
-        $this->assertContains("utilisateur a bien été modifié", $client->getResponse()->getContent());
+        $this->assertContains('utilisateur a bien été modifié', $client->getResponse()->getContent());
     }
 }

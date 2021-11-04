@@ -19,7 +19,7 @@ class UserController extends AbstractController
 {
     /**
      * @Route("/users", name="user_list")
-     * @param UserRepository $userRepository
+     *
      * @return Response
      * @IsGranted("ROLE_ADMIN")
      */
@@ -30,9 +30,7 @@ class UserController extends AbstractController
 
     /**
      * @Route("/users/create", name="user_create")
-     * @param Request $request
-     * @param UserPasswordEncoderInterface $encoder
-     * @param EntityManagerInterface $em
+     *
      * @return RedirectResponse|Response
      */
     public function createAction(Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $em)
@@ -45,7 +43,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $password = $encoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
-            $user->setRoles(["ROLE_USER"]);
+            $user->setRoles(['ROLE_USER']);
 
             $em->persist($user);
             $em->flush();
@@ -60,9 +58,7 @@ class UserController extends AbstractController
 
     /**
      * @Route("/users/{id}/edit", name="user_edit")
-     * @param User $user
-     * @param Request $request
-     * @param UserPasswordEncoderInterface $passwordEncoder
+     *
      * @return RedirectResponse|Response
      * @IsGranted("ROLE_ADMIN")
      */
@@ -77,7 +73,6 @@ class UserController extends AbstractController
                 $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
                 $user->setPassword($password);
             }
-
 
             $this->getDoctrine()->getManager()->flush();
 
