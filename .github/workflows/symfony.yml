@@ -3,8 +3,8 @@ name: Full CI process for Symfony 5
 on:
   push:
     branches:
-      - V5
-      - main
+      - Test
+      - master
 
 jobs:
   symfony:
