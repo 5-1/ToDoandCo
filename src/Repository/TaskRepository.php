@@ -24,7 +24,7 @@ class TaskRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('t')
             ->andWhere('t.user = :user')
-            ->setParameter("user", $user)
+            ->setParameter('user', $user)
             ->orderBy('t.createdAt', 'DESC');
 
         if ($isAdmin) {
@@ -36,9 +36,6 @@ class TaskRepository extends ServiceEntityRepository
                 ->setParameter('done', $done);
         }
 
-
         return $qb->getQuery()->getResult();
     }
-
-
 }

@@ -19,7 +19,6 @@ rendez-vous sur [le site officiel (en anglais)](https://git-scm.com).
 
 Vous voilà prêt à contribuer !
 
-
 ## Outils de travail recommandés
 
 ### Git
@@ -48,7 +47,6 @@ Netbeans, Eclipse, Atom, ou n'importe quel autre outil, vous devriez pourvoir tr
 
 Il est aussi bien sûr possible de travailler sans plugin, mais nous ne vous le recommandons pas.
 
-
 ## Je veux améliorer la documentation pour développeurs
 
 Si vous souhaitez améliorer la documentation pour développeurs, il y a certaines choses à savoir :
@@ -61,7 +59,6 @@ Si vous souhaitez améliorer la documentation pour développeurs, il y a certain
 Pour travailler concrètement sur la documentation, créez une
 [pull request](https://help.github.com/articles/about-pull-requests/) et proposez votre modification. Essayez d'expliquer
 dans cette pull request en quoi cette modification est utile.
-
 
 ## Je veux proposer une nouvelle fonctionnalité
 
@@ -87,8 +84,6 @@ Si vous êtes un développeur et que vous souhaitez travailler sur votre idée, 
 une [pull request](https://help.github.com/articles/about-pull-requests/) pour démarrer votre travail. Notez cependant
 que nous devrons valider votre idée avant d'accepter votre code.
 
-
-
 ## Je veux corriger un problème
 
 Pour corriger un problème, la première chose à faire est de vérifier que ce problème n'a pas déjà été résolu sans être
@@ -105,9 +100,6 @@ Si vous êtes un développeur et que vous souhaitez travailler sur le problème,
 une [pull request](https://help.github.com/articles/about-pull-requests/) pour démarrer votre travail et à
 lire la [documentation pour développeurs](docs) qui vous aidera à comprendre l'organisation technique du projet.
 
-
-
-
 ## J'ai fini mes modifications, je voudrais les proposer
 
 Maintenant que vous avez terminé votre travail, vous devez simplement le "pusher" sur votre "fork" et créer une
@@ -115,8 +107,6 @@ pull request sur le repository principal .
 
 Lorsque vous ouvrirez cette pull request, automatiquement, les tests automatisés et d'autres outils seront lancés
 pour tester, analyser et vérifier votre code (ce processus s'appelle l'intégration continue).
-
-
 
 Pour améliorer votre pull request et lui donner plus de chances d'être acceptée, nous vous recommandons les choses
 suivantes :

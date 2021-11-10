@@ -3,11 +3,10 @@
 namespace App\Security\Voter;
 
 use App\Entity\Task;
-use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class TaskVoter extends Voter
 {
@@ -22,7 +21,6 @@ class TaskVoter extends Voter
 
     /**
      * TaskVoter constructor.
-     * @param Security $security
      */
     public function __construct(Security $security)
     {
@@ -31,16 +29,15 @@ class TaskVoter extends Voter
 
     protected function supports($attribute, $subject)
     {
-        return in_array($attribute, ['MANAGE', 'TASK_SHOW_LIST'])  && ($subject instanceof Task || $subject === null);
+        return in_array($attribute, ['MANAGE', 'TASK_SHOW_LIST']) && ($subject instanceof Task || null === $subject);
     }
 
     /**
      * @param string $attribute
-     * @param Task $subject
-     * @param TokenInterface $token
+     * @param Task   $subject
+     *
      * @return bool
      */
-
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
         $this->user = $token->getUser();
@@ -49,8 +46,9 @@ class TaskVoter extends Voter
             case 'MANAGE':
                 return $this->canEdit($subject);
             case 'TASK_SHOW_LIST':
-                return $this->security->isGranted("ROLE_USER");
+                return $this->security->isGranted('ROLE_USER');
         }
+
         return false;
     }
 
@@ -76,7 +74,7 @@ class TaskVoter extends Voter
 
     private function isAdmin()
     {
-        return $this->security->isGranted("ROLE_ADMIN");
+        return $this->security->isGranted('ROLE_ADMIN');
     }
 
     private function isAnonymous($subject)
