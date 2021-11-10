@@ -27,13 +27,11 @@ class AppAvailabilityFunctionalTest extends WebTestCase
         yield 'home' => ['/', 200, 'GET'];
         yield 'task_list' => ['/tasks', 302, 'GET'];
         yield 'task_create' => ['/tasks/create', 200, 'GET'];
-        yield 'task_edit' => ['/tasks/26/edit', 302, 'GET'];
-        yield 'tot' => ['/tasks/26/toggle', 302, 'GET'];
-        yield 'task_delete' => ['/tasks/26/delete', 302, 'DELETE'];
-        yield 'user_create' => ['/users/create', 200, 'GET'];
+        yield 'task_edit' => ['/tasks/26/edit', 404, 'GET'];
+        yield 'tot' => ['/tasks/26/toggle', 404, 'GET'];
+        yield 'task_delete' => ['/tasks/26/delete', 404, 'DELETE'];
         yield 'user_list' => ['/users', 302, 'GET'];
-        yield 'user_create' => ['/users/create', 302, 'GET'];
-        yield 'user_edit' => ['/users/19/edit', 302, 'GET'];
+        yield 'user_edit' => ['/users/1/edit', 302, 'GET'];
     }
 
     private function assertSameTest($expectedStatus, int $getStatusCode)
