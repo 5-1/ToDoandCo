@@ -99,7 +99,7 @@
         [
             "php bin/console d:d:d --if-exists --force",
             "php bin/console d:d:c",
-            "php bin/no/console hautelook:fixtures:load -n"
+            "php bin/console hautelook:fixtures:load -n"
         ]
     },
     "conflict": {
