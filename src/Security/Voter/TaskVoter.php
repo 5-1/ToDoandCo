@@ -3,6 +3,7 @@
 namespace App\Security\Voter;
 
 use App\Entity\Task;
+use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
@@ -15,7 +16,7 @@ class TaskVoter extends Voter
      */
     private $security;
     /**
-     * @var string|UserInterface
+     * @var UserInterface
      */
     private $user;
 
@@ -34,13 +35,20 @@ class TaskVoter extends Voter
 
     /**
      * @param string $attribute
-     * @param Task   $subject
+     * @param Task $subject
      *
      * @return bool
      */
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
+
+        if ($token instanceof AnonymousToken) {
+            return false;
+        }
+
         $this->user = $token->getUser();
+
+
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
             case 'MANAGE':
