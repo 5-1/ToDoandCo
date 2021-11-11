@@ -32,13 +32,13 @@ class TaskControllerTest extends WebTestCase
 
         $uniqId = uniqid();
         $client->submitForm('Ajouter', [
-            'task[title]' => 'Titre tâche de test : '.$uniqId,
+            'task[title]' => 'Titre tâche de test : ' . $uniqId,
             'task[content]' => 'Contenu tâche de test',
         ]);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
         $client->followRedirect();
-        $this->assertContains('Titre tâche de test : '.$uniqId, $client->getResponse()->getContent());
+        $this->assertSelectorTextContains('body', 'Titre tâche de test : ' . $uniqId);
     }
 
     public function testEditAction()
@@ -50,13 +50,13 @@ class TaskControllerTest extends WebTestCase
 
         $uniqId = uniqid();
         $client->submitForm('Modifier', [
-            'task[title]' => 'Titre MODIFIER de test : '.$uniqId,
+            'task[title]' => 'Titre MODIFIER de test : ' . $uniqId,
             'task[content]' => 'Contenu MODIFIER de test',
         ]);
 
         $this->assertResponseStatusCodeSame(302);
 
         $client->followRedirect();
-        $this->assertContains('Superbe', $client->getResponse()->getContent());
+        $this->assertSelectorTextContains('body', 'Superbe');
     }
 }

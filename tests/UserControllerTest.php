@@ -24,10 +24,10 @@ class UserControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $client->submitForm('Ajouter', [
-            'user[username]' => 'testAdduser'.uniqid(),
+            'user[username]' => 'testAdduser' . uniqid(),
             'user[plainPassword][first]' => 'testAddmdp',
             'user[plainPassword][second]' => 'testAddmdp',
-            'user[email]' => 'testEdit'.uniqid().'test@test.fr',
+            'user[email]' => 'testEdit' . uniqid() . 'test@test.fr',
         ]);
 
         $this->assertResponseRedirects('/users');
@@ -44,16 +44,16 @@ class UserControllerTest extends WebTestCase
         $client->request('GET', '/users/2/edit');
 
         $client->submitForm('Modifier', [
-            'edit_user[username]' => 'testEdit'.uniqid(),
+            'edit_user[username]' => 'testEdit' . uniqid(),
             'edit_user[plainPassword][first]' => 'testAddmdp',
             'edit_user[plainPassword][second]' => 'testAddmdp',
-            'edit_user[email]' => 'testEdit'.uniqid().'test@test.fr',
+            'edit_user[email]' => 'testEdit' . uniqid() . 'test@test.fr',
             'edit_user[roles][0]' => 'ROLE_USER',
         ]);
 
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
         $client->followRedirect();
-        $this->assertContains('utilisateur a bien été modifié', $client->getResponse()->getContent());
+        $this->assertSelectorTextContains('body', 'utilisateur a bien été modifié');
     }
 }
